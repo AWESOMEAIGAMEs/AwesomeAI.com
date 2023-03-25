@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>AWESOMEai</title></head>
+
+<body>
+
+	<div id="chat-container">
+
+		<div id="chat-area"></div>
+
+		<div id="user-input">
+
+			<input type="text" id="user-input-text" placeholder="Type here...">
+
+			<button type="button" id="submit-button">Send</button>
+
+		</div>
+
+	</div>
+
+	<script>
+
+		// Define the chatbot responses using regular expressions
+
+		const responses = [
+
+			{ pattern: 'hi|hello|hey', message: 'Hi there! How can I help you?' },
+
+			{ pattern: 'how are you', message: 'I am doing great, thank you!' },
+
+			{ pattern: 'what is your name|who are you', message: 'My name is Chatbot. Nice to meet you!' },
+
+			{ pattern: 'bye|goodbye', message: 'Goodbye! Have a nice day.' }
+
+		];
+
+		// Get the chat area and user input elements
+
+		const chatArea = document.getElementById('chat-area');
+
+		const userInput = document.getElementById('user-input-text');
+
+		// Function to add messages to the chat area
+
+		function addMessageToChat(message, sender) {
+
+			const messageDiv = document.createElement('div');
+
+			messageDiv.classList.add('message');
+
+			messageDiv.classList.add(sender);
+
+			messageDiv.textContent = message;
+
+			chatArea.appendChild(messageDiv);
+
+		}
+
+		// Function to get the chatbot response
+
+		function getResponse(message) {
+
+			for (let i = 0; i < responses.length; i++) {
+
+				const regex = new RegExp(responses[i].pattern, 'gi');
+
+				if (regex.test(message)) {
+
+					return responses[i].message;
+
+				}
+
+			}
+
+			return 'I am sorry this website is still under development.';
+
+		}
+
+		// Event listener for the submit button
+
+		document.getElementById('submit-button').addEventListener('click', function() {
+
+			const userInputText = userInput.value.trim();
+
+			if (userInputText !== '') {
+
+				addMessageToChat(userInputText, 'user');
+
+				addMessageToChat(getResponse(userInputText), 'chatbot');
+
+				userInput.value = '';
+
+			}
+
+		});
+
+		// Event listener for the Enter key
+
+		userInput.addEventListener('keydown', function(event) {
+
+			if (event.keyCode === 13) {
+
+				event.preventDefault();
+
+				document.getElementById('submit-button').click();
+
+			}
+
+		});
+
+	</script>
+
+	<style>
+
+		#chat-container {
+
+			border: 1px solid #ccc;
+
+			padding: 10px;
+
+			margin: 10px;
+
+			max-width: 500px;
+
+			height: 400px;
+
+			overflow-y: scroll;
+
+		}
+
+		.message {
+
+			margin: 5px;
+
+			padding: 5px;
+
+			border-radius: 10px;
+
+			display: inline-block;
+
+			max-width: 80%;
+
+		}
+
+		.user {
+
+			background-color: #ddd;
+
+			float: right;
+
+		}
+
+		.chatbot {
+
+			background-color: #eee;
+
+			float: left;
+
+		}
+
+		#user-input {
+
+			margin-top: 10px;
+
+		}
+
+	</style>
+
+</body>
+
+</html>
